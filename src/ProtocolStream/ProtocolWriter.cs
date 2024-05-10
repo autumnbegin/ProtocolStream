@@ -33,11 +33,34 @@ namespace ProtocolStream
             Unsafe.InitBlock(ref _memoryOwner.Span[0], 0, (uint)byteSize);
         }
 
-        public void Seek(int byteOffset)
+        public void Seek(int bytePosition)
         {
             _maxByteCount = Math.Max(_maxByteCount, _bytePointer);
-            _bytePointer = byteOffset;
+            _bytePointer = bytePosition;
             _bitPointer = 0;
+        }
+
+        public void Seek(int bytePosition, int bitPosition)
+        {
+            _maxByteCount = Math.Max(_maxByteCount, _bytePointer + (_bitPointer + 7 >> 3));
+            _bytePointer = bytePosition + (bitPosition >> 3);
+            _bitPointer = bitPosition & 7;
+        }
+
+        public void Offset(int byteOffset, bool isResetBitPosition = true)
+        {
+            _bytePointer += byteOffset;
+            if (isResetBitPosition)
+            {
+                _bitPointer = 0;
+            }
+        }
+
+        public void Offset(int byteOffset, int bitOffset)
+        {
+            _bitPointer += bitOffset;
+            _bytePointer += byteOffset + (_bitPointer >> 3);
+            _bitPointer &= 7;
         }
 
         public ReadOnlySpan<byte> AsSpan()

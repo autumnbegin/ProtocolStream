@@ -76,4 +76,4 @@ Console.WriteLine(reader.ReadString(5));
 
 `Reader Operations`
 
-Similarly, the reader supports the Seek(bitOffset, bitPosition) method for bitwise-level positioning and uses regular read methods (omitted here due to truncation) to retrieve data from the specified positions.
+Similarly, the reader supports the Seek(bytePosition, bitPosition) method for bitwise-level positioning and uses regular read methods (omitted here due to truncation) to retrieve data from the specified positions.

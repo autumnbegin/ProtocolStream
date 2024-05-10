@@ -4,12 +4,6 @@ namespace ProtocolStream
 {
     public partial class ProtocolReader
     {
-        public void Seek(int byteOffset, int bitOffset)
-        {
-            _bytePointer = byteOffset + (bitOffset >> 3);
-            _bitPointer = bitOffset & 7;
-        }
-
         public T ReadAligned<T>() where T : unmanaged
         {
             return ReadAligned<T>(Unsafe.SizeOf<T>() << 3);

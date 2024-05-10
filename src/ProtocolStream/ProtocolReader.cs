@@ -37,10 +37,32 @@ namespace ProtocolStream
             _length = buffer.Length;
         }
 
-        public void Seek(int byteOffset)
+        public void Seek(int bytePosition)
         {
-            _bytePointer = byteOffset;
+            _bytePointer = bytePosition;
             _bitPointer = 0;
+        }
+
+        public void Seek(int bytePosition, int bitPosition)
+        {
+            _bytePointer = bytePosition + (bitPosition >> 3);
+            _bitPointer = bitPosition & 7;
+        }
+
+        public void Offset(int byteOffset, bool isResetBitPosition = true)
+        {
+            _bytePointer += byteOffset;
+            if (isResetBitPosition)
+            {
+                _bitPointer = 0;
+            }
+        }
+
+        public void Offset(int byteOffset, int bitOffset)
+        {
+            _bitPointer += bitOffset;
+            _bytePointer += byteOffset + (_bitPointer >> 3);
+            _bitPointer &= 7;
         }
 
         public byte ReadByte()

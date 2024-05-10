@@ -4,13 +4,6 @@ namespace ProtocolStream
 {
     public partial class ProtocolWriter
     {
-        public void Seek(int byteOffset, int bitOffset)
-        {
-            _maxByteCount = Math.Max(_maxByteCount, _bytePointer + (_bitPointer + 7 >> 3));
-            _bytePointer = byteOffset + (bitOffset >> 3);
-            _bitPointer = bitOffset & 7;
-        }
-
         public void WriteAligned<T>(T value) where T : unmanaged
         {
             this.WriteAligned(value, Unsafe.SizeOf<T>() << 3);

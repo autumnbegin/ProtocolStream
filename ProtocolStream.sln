@@ -5,19 +5,18 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{53727674-46ED-47A5-BF11-DB1ACFC33A4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolStream", "src\ProtocolStream\ProtocolStream.csproj", "{82D9640A-EFCC-40DE-B4EF-B9E3719977D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolStream", "src\ProtocolStream\ProtocolStream.csproj", "{82D9640A-EFCC-40DE-B4EF-B9E3719977D4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{06C91BFD-8BC5-4E0D-A24C-93E5F94CFAC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolStream.Test", "test\ProtocolStream.Test\ProtocolStream.Test.csproj", "{AD5179F7-0941-4D2E-B539-85FE58894725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolStream.Test", "test\ProtocolStream.Test\ProtocolStream.Test.csproj", "{AD5179F7-0941-4D2E-B539-85FE58894725}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolStream.Test.Benchmark", "test\ProtocolStream.Test.Benchmark\ProtocolStream.Test.Benchmark.csproj", "{2FBEB027-5DD5-4E83-B349-DDA2D8CBE6DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{82D9640A-EFCC-40DE-B4EF-B9E3719977D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -28,9 +27,20 @@ Global
 		{AD5179F7-0941-4D2E-B539-85FE58894725}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD5179F7-0941-4D2E-B539-85FE58894725}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD5179F7-0941-4D2E-B539-85FE58894725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FBEB027-5DD5-4E83-B349-DDA2D8CBE6DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBEB027-5DD5-4E83-B349-DDA2D8CBE6DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBEB027-5DD5-4E83-B349-DDA2D8CBE6DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBEB027-5DD5-4E83-B349-DDA2D8CBE6DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{82D9640A-EFCC-40DE-B4EF-B9E3719977D4} = {53727674-46ED-47A5-BF11-DB1ACFC33A4B}
 		{AD5179F7-0941-4D2E-B539-85FE58894725} = {06C91BFD-8BC5-4E0D-A24C-93E5F94CFAC0}
+		{2FBEB027-5DD5-4E83-B349-DDA2D8CBE6DE} = {06C91BFD-8BC5-4E0D-A24C-93E5F94CFAC0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7F96DE1-79D2-4713-BB8E-073267359A63}
 	EndGlobalSection
 EndGlobal
