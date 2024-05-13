@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.HighPerformance.Buffers;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ProtocolStream
@@ -7,8 +6,6 @@ namespace ProtocolStream
     public partial class ProtocolWriter : IDisposable
     {
         private readonly Memory<byte> _buffer;
-
-        private readonly MemoryOwner<byte>? _memoryOwner;
 
         private readonly int _length;
 
@@ -24,13 +21,16 @@ namespace ProtocolStream
             _buffer = buffer.AsMemory();
         }
 
+        public ProtocolWriter(Memory<byte> buffer)
+        {
+            _length = buffer.Length;
+            _buffer = buffer;
+        }
+
         public ProtocolWriter(int byteSize)
         {
             _length = byteSize;
-            _memoryOwner = MemoryOwner<byte>.Allocate(byteSize);
-            _buffer = _memoryOwner.Memory;
-
-            Unsafe.InitBlock(ref _memoryOwner.Span[0], 0, (uint)byteSize);
+            _buffer = new byte[byteSize].AsMemory();
         }
 
         public void Seek(int bytePosition)
@@ -286,7 +286,6 @@ namespace ProtocolStream
 
         public void Dispose()
         {
-            _memoryOwner?.Dispose();
             GC.SuppressFinalize(this);
         }
     }
