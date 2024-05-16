@@ -10,7 +10,7 @@ namespace ProtocolStream.Test.Benchmark
         [Benchmark]
         public void ProtocolWriterPrimativeScenario()
         {
-            using var writer = new ProtocolWriter(32);
+            var writer = new ProtocolWriter(32);
 
             writer.Write(1);
             writer.Write(2D);
@@ -39,7 +39,7 @@ namespace ProtocolStream.Test.Benchmark
         [Benchmark]
         public void ProtocolWriterStringScenario()
         {
-            using var writer = new ProtocolWriter(8);
+            var writer = new ProtocolWriter(8);
 
             writer.Write("12345678");
 
@@ -61,7 +61,7 @@ namespace ProtocolStream.Test.Benchmark
         public void ProtocolReaderPrimativeScenario()
         {
             var buffer = new byte[8] { 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8 };
-            using var reader = new ProtocolReader(buffer);
+            var reader = new ProtocolReader(buffer);
 
             _ = reader.ReadInt();
             _ = reader.ReadFloat();
@@ -81,7 +81,7 @@ namespace ProtocolStream.Test.Benchmark
         public void ProtocolReaderStringScenario()
         {
             var buffer = new byte[8] { 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38 };
-            using var reader = new ProtocolReader(buffer);
+            var reader = new ProtocolReader(buffer);
 
             _ = reader.ReadString(8, Encoding.ASCII);
         }

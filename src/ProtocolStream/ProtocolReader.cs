@@ -1,14 +1,12 @@
-﻿using CommunityToolkit.HighPerformance.Buffers;
+﻿using CommunityToolkit.HighPerformance;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ProtocolStream
 {
-    public partial class ProtocolReader : IDisposable
+    public partial class ProtocolReader
     {
         private readonly ReadOnlyMemory<byte> _buffer;
-
-        private readonly MemoryOwner<byte>? _memoryOwner;
 
         private readonly int _length;
 
@@ -20,15 +18,6 @@ namespace ProtocolStream
         {
             _length = buffer.Length;
             _buffer = buffer.AsMemory();
-        }
-
-        public ProtocolReader(ReadOnlySpan<byte> buffer)
-        {
-            _length = buffer.Length;
-            _memoryOwner = MemoryOwner<byte>.Allocate(_length);
-            _buffer = _memoryOwner.Memory;
-
-            Unsafe.CopyBlock(ref _memoryOwner.Span[0], in buffer[0], (uint)_length);
         }
 
         public ProtocolReader(ReadOnlyMemory<byte> buffer)
@@ -185,10 +174,39 @@ namespace ProtocolStream
 
         public byte[] ReadBytes(int length)
         {
+            return this.ReadMemory(length).ToArray();
+        }
+
+        public ReadOnlySpan<byte> ReadSpan(int length)
+        {
+            return this.ReadMemory(length).Span;
+        }
+
+        public ReadOnlyMemory<byte> ReadMemory(int length)
+        {
             var p = _bytePointer;
             _bytePointer += length;
             this.ValidatePointer();
-            return _buffer.Slice(p, length).ToArray();
+            return _buffer.Slice(p, length);
+        }
+
+        public void ReadTo(byte[] target)
+        {
+            this.ReadTo(target.AsSpan());
+        }
+
+        public void ReadTo(Memory<byte> target)
+        {
+            this.ReadTo(target.Span);
+        }
+
+        public void ReadTo(Span<byte> target)
+        {
+            var p = _bytePointer;
+            var length = target.Length;
+            _bytePointer += length;
+            this.ValidatePointer();
+            Unsafe.CopyBlock(ref target[0], in _buffer.Span[p], (uint)length);
         }
 
         public bool ReadBoolean()
@@ -208,12 +226,6 @@ namespace ProtocolStream
             {
                 throw new IndexOutOfRangeException(nameof(_bytePointer));
             }
-        }
-
-        public void Dispose()
-        {
-            _memoryOwner?.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

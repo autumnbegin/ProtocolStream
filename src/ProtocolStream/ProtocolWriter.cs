@@ -3,7 +3,7 @@ using System.Text;
 
 namespace ProtocolStream
 {
-    public partial class ProtocolWriter : IDisposable
+    public partial class ProtocolWriter
     {
         private readonly Memory<byte> _buffer;
 
@@ -240,21 +240,27 @@ namespace ProtocolStream
 
         public void Write(byte[] value)
         {
+            this.Write(value.AsSpan());
+        }
+
+        public void Write(byte[] value, int start, int count)
+        {
+            this.Write(value.AsSpan(start, count));
+        }
+
+        public void Write(ReadOnlyMemory<byte> value)
+        {
+            this.Write(value.Span);
+        }
+
+        public void Write(ReadOnlySpan<byte> value)
+        {
             var p = _bytePointer;
             var length = value.Length;
 
             _bytePointer += length;
             this.ValidatePointer();
-            Unsafe.CopyBlock(ref _buffer.Span[p], ref value[0], (uint)length);
-        }
-
-        public void Write(byte[] value, int start, int count)
-        {
-            var p = _bytePointer;
-
-            _bytePointer += count;
-            this.ValidatePointer();
-            Unsafe.CopyBlock(ref _buffer.Span[p], ref value[start], (uint)count);
+            Unsafe.CopyBlock(ref _buffer.Span[p], in value[0], (uint)length);
         }
 
         public void Write(bool value)
@@ -282,11 +288,6 @@ namespace ProtocolStream
             {
                 throw new IndexOutOfRangeException(nameof(_bytePointer));
             }
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
         }
     }
 }
