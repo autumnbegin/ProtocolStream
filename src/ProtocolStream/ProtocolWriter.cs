@@ -286,7 +286,7 @@ namespace ProtocolStream
         {
             if (_bytePointer > _length || _bytePointer == _length && _bitPointer > 0)
             {
-                throw new IndexOutOfRangeException(nameof(_bytePointer));
+                throw new IndexOutOfRangeException("Memory out of range");
             }
         }
     }
